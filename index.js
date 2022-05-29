@@ -16,6 +16,7 @@ async function run() {
         await client.connect();
         const itemCollection = client.db('paint_brush').collection('items');
         const orderCollection = client.db('paint_brush').collection('orders')
+        const userCollection = client.db('client').collection('users')
 
 
         app.get('/item', async (req, res) => {
@@ -31,17 +32,22 @@ async function run() {
             res.send(items);
         })
 
-        app.get('/order', async (req, res) => {
-            const purchase = req.query.purchase;
-            const decodedEmail = req.decoded.email;
-            if (purchase === decodedEmail) {
-                const query = { purchase: purchase };
-                const order = await orderCollection.find(query).toArray();
-                res.send(order);
-            }
-            else {
-                return res.status(403).send({ message: 'Forbidden Access' });
-            }
+        // app.get('/order', async (req, res) => {
+        //     const purchase = req.query.purchase;
+        //     const decodedEmail = req.decoded.email;
+        //     if (purchase === decodedEmail) {
+        //         const query = { purchase: purchase };
+        //         const order = await orderCollection.find(query).toArray();
+        //         res.send(order);
+        //     }
+        //     else {
+        //         return res.status(403).send({ message: 'Forbidden Access' });
+        //     }
+        // })
+
+        app.get('/user', async (req, res) => {
+            const users = await userCollection.find().toArray();
+            res.send(users);
         })
 
         app.post('/order', async (req, res) => {
