@@ -17,7 +17,7 @@ async function run() {
         await client.connect();
         const itemCollection = client.db('paint_brush').collection('items');
         const orderCollection = client.db('paint_brush').collection('orders')
-        const userCollection = client.db('client').collection('users')
+        const userCollection = client.db('paint_brush').collection('users')
 
 
         app.get('/item', async (req, res) => {
