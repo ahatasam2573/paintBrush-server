@@ -30,7 +30,16 @@ async function run() {
             const items = await itemCollection.findOne(query);
             res.send(items);
         })
-
+        app.post('/order', async (req, res) => {
+            const ordered = req.body;
+            const query = { purchase: order.purchase, date: order.date, customer: order.customer };
+            const exists = await orderCollection.findOne(query);
+            if (exists) {
+                return res.send({ success: false, order: exists });
+            }
+            const result = await orderCollection.insertOne(order);
+            return res.send({ success: true, result });
+        })
 
     }
     finally {
