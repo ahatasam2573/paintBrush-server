@@ -30,6 +30,20 @@ async function run() {
             const items = await itemCollection.findOne(query);
             res.send(items);
         })
+
+        app.get('/order', async (req, res) => {
+            const purchase = req.query.purchase;
+            const decodedEmail = req.decoded.email;
+            if (purchase === decodedEmail) {
+                const query = { purchase: purchase };
+                const order = await orderCollection.find(query).toArray();
+                res.send(order);
+            }
+            else {
+                return res.status(403).send({ message: 'Forbidden Access' });
+            }
+        })
+
         app.post('/order', async (req, res) => {
             const ordered = req.body;
             const query = { purchase: order.purchase, date: order.date, customer: order.customer };
