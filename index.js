@@ -50,6 +50,18 @@ async function run() {
             res.send(users);
         })
 
+        app.put('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = req.body;
+            const filter = { email: email };
+            const option = { upsert: true };
+            const updateDoc = {
+                $set: user,
+            };
+            const result = await userCollection.updateOne(filter, updateDoc, option);
+            res.send(result);
+        })
+
         app.post('/order', async (req, res) => {
             const ordered = req.body;
             const query = { purchase: order.purchase, date: order.date, customer: order.customer };
