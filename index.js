@@ -15,6 +15,7 @@ async function run() {
     try {
         await client.connect();
         const itemCollection = client.db('paint_brush').collection('items');
+        const orderCollection = client.db('paint_brush').collection('orders')
 
 
         app.get('/item', async (req, res) => {
@@ -29,6 +30,8 @@ async function run() {
             const items = await itemCollection.findOne(query);
             res.send(items);
         })
+
+
     }
     finally {
 
